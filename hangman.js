@@ -59,6 +59,7 @@ function guessLetter(elm) {
   if (secretWord.toUpperCase().search(letter) > -1) {
     var lWordSpans = wordDiv.getElementsByTagName('span');
     var lWord = [];
+    var lHasBlank = false;
     for (var i = 0; i < lWordSpans.length; i++) {
       var lChar = lWordSpans[i].innerHTML;
       if (lChar == '_' && secretWord.charAt(i).toUpperCase() == letter) {
@@ -66,9 +67,16 @@ function guessLetter(elm) {
       }
       else {
         lWord.push('<span>' + lWordSpans[i].innerHTML + '</span>');
+        if(lWordSpans[i].innerHTML == '_'){
+          lHasBlank = true;
+        }
       }
     }
     wordDiv.innerHTML = lWord.join('');
+    if(!lHasBlank){
+      alert("You win!\nThe word was: " + secretWord + ".");
+      location.reload();
+    }
   }
   else {
     drawStickMan(++mIncorrectGuesses);
